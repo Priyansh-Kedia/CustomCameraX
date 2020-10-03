@@ -435,7 +435,7 @@ class CustomCameraX: FrameLayout, LifecycleOwner {
         private val REQUIRED_PERMISSIONS = arrayOf(Manifest.permission.CAMERA)
     }
 
-    enum class BRIGHTNESS {
+    private enum class BRIGHTNESS {
         HIGH,
         LOW
     }
