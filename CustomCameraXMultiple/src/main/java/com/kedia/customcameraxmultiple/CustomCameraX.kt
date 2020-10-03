@@ -40,7 +40,7 @@ import java.io.File
 import java.lang.Math.abs
 import java.util.concurrent.ExecutorService
 
-class CustomCameraX: FrameLayout, CustomImageAdapter.CustomAdapterClick, LifecycleOwner {
+class CustomCameraX: FrameLayout, LifecycleOwner {
 
 
 
@@ -55,7 +55,7 @@ class CustomCameraX: FrameLayout, CustomImageAdapter.CustomAdapterClick, Lifecyc
     private lateinit var cameraSelector: CameraSelector
 
     private val imageArrayList: MutableList<Bitmap?> = mutableListOf()
-    private val customCameraAdapter by lazy { CustomImageAdapter(context, mutableListOf(), this) }
+    private val customCameraAdapter by lazy { CustomImageAdapter(context, mutableListOf()) }
     private val linearLayoutManager by lazy { LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false) }
 
     @LayoutRes
@@ -92,14 +92,14 @@ class CustomCameraX: FrameLayout, CustomImageAdapter.CustomAdapterClick, Lifecyc
     }
 
     private fun init(attrs: AttributeSet?) {
-        val typedArray = context.obtainStyledAttributes(attrs, R.styleable.CCMultiple)
+        val typedArray = context.obtainStyledAttributes(attrs, R.styleable.CustomCameraX)
         try {
             mainLayoutId = R.layout.custom_camera
-            showSnapButton = typedArray.getBoolean(R.styleable.CCMultiple_showSnapButton, false)
-            snapButtonColor = typedArray.getColor(R.styleable.CCMultiple_snapButtonColor, context.resources.getColor(R.color.cardview_light_background))
-            snapButtonSelectedColor = typedArray.getColor(R.styleable.CCMultiple_snapButtonSelectedColor, Color.parseColor("#CB0000"))
-            showPreviewScreen = typedArray.getBoolean(R.styleable.CCMultiple_showPreviewScreen, false)
-            showNoPermissionToast = typedArray.getBoolean(R.styleable.CCMultiple_showNoPermissionToast, false)
+            showSnapButton = typedArray.getBoolean(R.styleable.CustomCameraX_showSnapButton, false)
+            snapButtonColor = typedArray.getColor(R.styleable.CustomCameraX_snapButtonColor, context.resources.getColor(R.color.cardview_light_background))
+            snapButtonSelectedColor = typedArray.getColor(R.styleable.CustomCameraX_snapButtonSelectedColor, Color.parseColor("#CB0000"))
+            showPreviewScreen = typedArray.getBoolean(R.styleable.CustomCameraX_showPreviewScreen, false)
+            showNoPermissionToast = typedArray.getBoolean(R.styleable.CustomCameraX_showNoPermissionToast, false)
         } finally {
             typedArray.recycle()
         }
@@ -420,10 +420,6 @@ class CustomCameraX: FrameLayout, CustomImageAdapter.CustomAdapterClick, Lifecyc
             File(it, "somename").apply { mkdirs() } }
         return if (mediaDir != null && mediaDir.exists())
             mediaDir else context.filesDir
-    }
-
-    override fun onImageDeleteClicked(adapterPosition: Int, bitmap: Bitmap?) {
-        Log.d(TAG, "called")
     }
 
     interface CustomCameraX {
